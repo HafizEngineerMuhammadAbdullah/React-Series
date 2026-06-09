@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input,button {
+  padding: 8px 12px;
+  margin: 10px;
+  font-size: 15px;
+}
