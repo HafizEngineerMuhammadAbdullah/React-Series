@@ -17,10 +17,10 @@ const Navbar = () => {
         <a className="text-lg font-medium" href="/product">
           Product
         </a> */}
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/contact">Contact Us</Link>
-        <Link to="/product">Product</Link>
+        <Link className="text-lg font-medium" to="/">Home</Link>
+        <Link className="text-lg font-medium" to="/about">About</Link>
+        <Link className="text-lg font-medium" to="/contact">Contact Us</Link>
+        <Link className="text-lg font-medium" to="/product">Product</Link>
       </div>
     </div>
   );
