@@ -9,4 +9,5 @@ h1 {
   font-weight: 600;
   text-decoration: underline;
   white-space: nowrap;
+  text-transform: capitalize;
 }
