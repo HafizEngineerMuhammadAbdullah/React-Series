@@ -1,38 +1,86 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import User from "./component/User";
 
 const App = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // const [fullName, setFullName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [user, setUser] = useState([]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // setFormData({
+    //   name: value,
+    // });
+    setFormData((prevForm) => ({ ...prevForm, [name]: value }));
+
+    console.log(formData);
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    if (password.length < 8) {
+    // Validate Form
+    if (formData.password.length < 8) {
       setError("Password must be 8 characters long!");
       return;
-    } else if (password != confirmPassword) {
+    } else if (formData.password !== formData.confirmPassword) {
       setError("Password and Confirm Password must be same!");
       return;
     }
 
-    if (!/[!@#$%^&*()<>,.";:]/.test(password)) {
+    if (!/[!@#$%^&*()<>,.";:]/.test(formData.password)) {
       setError("Password must contain any special character!");
       return;
     }
 
-    if (!/[A-Z]/.test(password)) {
+    if (!/[A-Z]/.test(formData.password)) {
       setError("Password must contain any capital letter!");
       return;
     }
+
+    // setUser((prevUser) => [
+    //   ...prevUser,
+    //   {
+    //     fullName: formData.fullName,
+    //     email: formData.email,
+    //     password: formData.password,
+    //     confirmPassword: formData.confirmPassword,
+    //   },
+    // ]);
+
+    setUser((prevUser) => [...prevUser,formData]);
+
+    // const existingUsers = JSON.parse(localStorage.getItem("userData")) || [];
+    // existingUsers.push(formData);
+    // localStorage.setItem("userData", JSON.stringify(existingUsers));
+
+    localStorage.setItem("userData",JSON.stringify(formData));
+
+    setFormData({
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+
     setError("");
-    setFullName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    // setFullName("");
+    // setEmail("");
+    // setPassword("");
+    // setConfirmPassword("");
 
     toast.success("🦄 Login Successfull! ", {
       position: "top-center",
@@ -49,7 +97,7 @@ const App = () => {
   const inputStyle =
     "w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500";
   return (
-    <div className="h-screen flex justify-center items-center bg-gray-100 px-4 overflow-hidden">
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 px-4 overflow-auto">
       <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
         <form
           onSubmit={submitHandler}
@@ -68,9 +116,11 @@ const App = () => {
             className={inputStyle}
             type="text"
             id="name"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            required="required"
+            value={formData.fullName}
+            // onChange={(e) => setFullName(e.target.value)}
+            name="fullName"
+            onChange={handleChange}
+            required={true}
             placeholder="Enter Name here"
             autoComplete="name"
           />
@@ -82,9 +132,11 @@ const App = () => {
             className={inputStyle}
             type="email"
             id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required="required"
+            name="email"
+            value={formData.email}
+            // onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
+            required={true}
             placeholder="Enter Your Email"
             autoComplete="email"
           />
@@ -96,9 +148,11 @@ const App = () => {
             className={inputStyle}
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required="required"
+            name="password"
+            value={formData.password}
+            // onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChange}
+            required={true}
             placeholder="Enter Password"
             autoComplete="new-password"
           />
@@ -109,9 +163,11 @@ const App = () => {
             className={inputStyle}
             // className="w-full border-2 border-[#7e7373af] focus:border-none focus:outline-2 outline-[#5518c7] px-3 py-1 text-xl rounded-lg"
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required="required"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            // onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={handleChange}
+            required={true}
             placeholder="Confirm Password"
           />
 
@@ -127,6 +183,11 @@ const App = () => {
             Submit
           </button>
         </form>
+      </div>
+      <div className="text-black">
+        {user.map((element, idx) => {
+          return <User key={idx} element={element} />;
+        })}
       </div>
       <ToastContainer></ToastContainer>
     </div>
