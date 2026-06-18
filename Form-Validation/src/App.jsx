@@ -61,13 +61,16 @@ const App = () => {
     //   },
     // ]);
 
-    setUser((prevUser) => [...prevUser,formData]);
+    setUser((prevUser) => [...prevUser, formData]);
 
-    // const existingUsers = JSON.parse(localStorage.getItem("userData")) || [];
-    // existingUsers.push(formData);
-    // localStorage.setItem("userData", JSON.stringify(existingUsers));
+    const existingUsers = JSON.parse(localStorage.getItem("userData")) || [];
+    console.log(existingUsers);
+    console.log(Array.isArray(existingUsers));
+    existingUsers.push(formData);
 
-    localStorage.setItem("userData",JSON.stringify(formData));
+    localStorage.setItem("userData", JSON.stringify(existingUsers));
+
+    // localStorage.setItem("userData", JSON.stringify(formData));
 
     setFormData({
       fullName: "",
